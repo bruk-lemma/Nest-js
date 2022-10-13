@@ -21,23 +21,17 @@ import { UpdateClientDto } from './dto/update-client.dto';
 @Controller('clients')
 export class ClientsController {
     constructor(private readonly clientsService: ClientsService) { }
-    @Get('cl')
+    @Get()
     findAll(@Query() paginationQuery) {
         return this.clientsService.findAll();
     }
     @Get(':id')
-    findOne(@Param('id') id: number) {
+    findOne(@Param('id') id: string) {
         // throw " A random Error ";
-        console.log(typeof id);
-        const client = this.clientsService.findOne('' + id);
-        if (!client) {
-            throw new NotFoundException(`Client #${id} not found`);
-        }
-        return client;
+        return this.clientsService.findOne(id);
     }
     @Post()
     create(@Body() createClientDto: CreateClientDto) {
-        console.log(createClientDto instanceof CreateClientDto);
         return this.clientsService.create(createClientDto);
     }
     @Patch(':id')
